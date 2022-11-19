@@ -27,14 +27,6 @@ app.use(loggerMiddleware)
 
 app.use('/', routes)
 
-app.post('/', async (req, res) => {
-    const user = new User();
-    const body = req.body;
-    user.name = req.body.name;
-    await AppDataSource.manager.save(user)
-    res.send('created user')
-});
-
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
 });
