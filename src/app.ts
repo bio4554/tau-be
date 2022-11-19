@@ -1,28 +1,31 @@
 import * as dotenv from 'dotenv'
 dotenv.config();
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet'
 import "reflect-metadata"
-import { AppDataSource } from './data-source';
-import { User } from './entity/User';
+import { AppDataSource } from './db/data-source';
+import { User } from './db/entity/User';
+import routes from './routes';
 
-console.log(process.env)
 AppDataSource.initialize()
     .then(() => {
         console.log("init db success");
     })
     .catch((error) => console.log(error))
 
+function loggerMiddleware(req:Request, res:Response, next: NextFunction): void{
+    console.log(`${req.method} ${req.url}`)
+    next();
+}
+
 
 const app = express();
 const port = 3000;
 app.use(helmet())
 app.use(express.json());
+app.use(loggerMiddleware)
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.use('/', routes)
 
 app.post('/', async (req, res) => {
     const user = new User();

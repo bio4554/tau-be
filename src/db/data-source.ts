@@ -1,8 +1,6 @@
-import config from "./app.config"
+import config from "../app.config"
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
-
-console.log(config)
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -12,7 +10,7 @@ export const AppDataSource = new DataSource({
     password: config.PostgresPassword,
     database: config.PostgresDatabase,
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [User],
     subscribers: [],
     migrations: [],
