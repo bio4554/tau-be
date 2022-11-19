@@ -1,13 +1,18 @@
+import config from "../app.config"
 import { AppDataSource } from "../db/data-source";
 import { User } from "../db/entity/User";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export const createUser = async (user: User) => {
+    const userRepository = AppDataSource.getRepository(User);
+    if(await userRepository.findOneBy({name:user.name}))
+        throw new Error("username taken")
     if (user.password)
         user.password = await hashPassword(user.password);
     else
         throw new Error('Password was empty');
-    const userRepository = AppDataSource.getRepository(User);
+    
     const newUser = await userRepository.save(user);
     newUser.password = undefined;
     return newUser;
@@ -25,8 +30,11 @@ export const login = async (username: string, password: string) => {
         return undefined
     const matched = await checkPassword(user.password, password);
     if(matched){
+        const token = jwt.sign({id:user.id!.toString(), username: user.name}, config.JwtKey, {
+            expiresIn: '2 days',
+        });
         user.password = undefined;
-        return user;
+        return {user:user, token:token};
     }
     return undefined;
 }
