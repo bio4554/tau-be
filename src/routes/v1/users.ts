@@ -1,7 +1,7 @@
-import { Router } from "express";
-import * as usersController from "../../controllers/users.controller"
+import { Router } from 'express';
+import * as usersController from '../../controllers/users.controller';
 
-const router = Router()
+const router = Router();
 
 router.get('/:id', usersController.getById);
 router.post('/', usersController.postNew);
