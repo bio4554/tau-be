@@ -2,6 +2,7 @@ import config from "../app.config"
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Post } from "./entity/Post";
+import { RefreshAuth } from "./entity/RefreshAuth";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
     database: config.PostgresDatabase,
     synchronize: true,
     logging: false,
-    entities: [User, Post],
+    entities: [User, Post, RefreshAuth],
     subscribers: [],
     migrations: [],
 })

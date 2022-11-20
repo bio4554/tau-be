@@ -15,7 +15,8 @@ export const postNew = async (req: Request, res: Response, next: NextFunction) =
         post.body = body;
         post.title = title;
         const result = await postService.createPost(post, token.id)
-        res.status(200).send();
+        result.user = undefined;
+        res.status(200).send(result);
     } catch (err) {
         console.log(err)
         res.status(500).send();

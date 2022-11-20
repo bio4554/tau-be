@@ -3,6 +3,7 @@ import { AppDataSource } from "../db/data-source";
 import { User } from "../db/entity/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import * as tokenService from "./token.service"
 
 export const createUser = async (user: User) => {
     const userRepository = AppDataSource.getRepository(User);
@@ -30,13 +31,17 @@ export const login = async (username: string, password: string) => {
         return undefined
     const matched = await checkPassword(user.password, password);
     if(matched){
-        const token = jwt.sign({id:user.id!.toString(), username: user.name}, config.JwtKey, {
-            expiresIn: '2 days',
-        });
+        const accessToken = await tokenService.signJwt(user, "access");
+        const refreshToken = await tokenService.signJwt(user, "refresh");
         user.password = undefined;
-        return {user:user, token:token};
+        return {user:user, accessToken: accessToken, refreshToken: refreshToken};
     }
     return undefined;
+}
+
+export const getUser = async (userId: number) => {
+    const userRepository = AppDataSource.getRepository(User);
+    return await userRepository.findOneBy({id: userId});
 }
 
 const hashPassword = async (password: string) => {

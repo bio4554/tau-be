@@ -14,7 +14,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             throw new Error("no token in request");
         }
 
-        const decoded = jwt.verify(token, config.JwtKey) as JwtPayload;
+        const decoded = jwt.verify(token, config.JwtAccessKey) as JwtPayload;
         (req as CustomRequest).token = decoded;
 
         next();

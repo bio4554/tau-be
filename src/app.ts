@@ -1,11 +1,13 @@
 import * as dotenv from 'dotenv'
 dotenv.config();
+import config from "./app.config"
 import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet'
 import "reflect-metadata"
 import { AppDataSource } from './db/data-source';
 import { User } from './db/entity/User';
 import routes from './routes';
+import cookieParser from "cookie-parser"
 
 AppDataSource.initialize()
     .then(() => {
@@ -15,13 +17,15 @@ AppDataSource.initialize()
 
 function loggerMiddleware(req:Request, res:Response, next: NextFunction): void{
     console.log(`${req.method} ${req.url}`)
+    console.log(req.cookies)
     next();
 }
 
 
 const app = express();
-const port = 3000;
+const port = parseInt(config.Port);
 app.use(helmet())
+app.use(cookieParser())
 app.use(express.json());
 app.use(loggerMiddleware)
 
