@@ -5,11 +5,7 @@ import * as userService from '../services/users.service';
 import * as authService from '../services/auth.service';
 import * as tokenService from '../services/token.service';
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
   try {
     const result = await userService.login(username, password);
@@ -27,11 +23,7 @@ export const login = async (
   }
 };
 
-export const refresh = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const refresh = async (req: Request, res: Response, next: NextFunction) => {
   const cookie = req.cookies.refreshToken;
   console.log(cookie);
   try {

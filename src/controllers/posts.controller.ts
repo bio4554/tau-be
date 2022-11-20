@@ -5,11 +5,7 @@ import { User } from '../db/entity/User';
 import { CustomRequest } from '../middleware/auth';
 import * as postService from '../services/posts.service';
 
-export const postNew = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const postNew = async (req: Request, res: Response, next: NextFunction) => {
   const { title, body } = req.body;
   try {
     const token = (req as CustomRequest).token;
@@ -26,11 +22,7 @@ export const postNew = async (
   }
 };
 
-export const getAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = (req as CustomRequest).token;
     if (!token) throw new Error();

@@ -7,7 +7,7 @@ export class User {
   id?: number;
 
   @Column({
-    length: 100
+    length: 100,
   })
   name?: string;
 

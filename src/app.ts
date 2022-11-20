@@ -15,11 +15,7 @@ AppDataSource.initialize()
   })
   .catch((error) => console.log(error));
 
-function loggerMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+function loggerMiddleware(req: Request, res: Response, next: NextFunction): void {
   console.log(`${req.method} ${req.url}`);
   console.log(req.cookies);
   next();

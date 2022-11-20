@@ -3,17 +3,13 @@ import { AppDataSource } from '../db/data-source';
 import { User } from '../db/entity/User';
 import * as userService from '../services/users.service';
 
-export const getById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getById = async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id);
 
   const userRepository = AppDataSource.getRepository(User);
   try {
     const user = await userRepository.findOneBy({
-      id: id
+      id: id,
     });
     if (!user) {
       res.status(404).send(`could not find user id: ${id}`);
@@ -25,11 +21,7 @@ export const getById = async (
   }
 };
 
-export const postNew = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const postNew = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = new User();
     const body = req.body;

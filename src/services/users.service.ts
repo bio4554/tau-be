@@ -7,8 +7,7 @@ import * as tokenService from './token.service';
 
 export const createUser = async (user: User) => {
   const userRepository = AppDataSource.getRepository(User);
-  if (await userRepository.findOneBy({ name: user.name }))
-    throw new Error('username taken');
+  if (await userRepository.findOneBy({ name: user.name })) throw new Error('username taken');
   if (user.password) user.password = await hashPassword(user.password);
   else throw new Error('Password was empty');
 
@@ -23,7 +22,7 @@ export const login = async (username: string, password: string) => {
   }
   const userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOneBy({
-    name: username
+    name: username,
   });
   if (!user || !user.password) return undefined;
   const matched = await checkPassword(user.password, password);

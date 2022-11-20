@@ -15,5 +15,5 @@ export const AppDataSource = new DataSource({
   logging: false,
   entities: [User, Post, RefreshAuth],
   subscribers: [],
-  migrations: []
+  migrations: [],
 });

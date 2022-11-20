@@ -6,5 +6,5 @@ export default {
   PostgresPort: process.env.PG_PORT ?? '',
   JwtAccessKey: process.env.JWT_ACCESS_KEY ?? '',
   JwtRefreshKey: process.env.JWT_REFRESH_KEY ?? '',
-  Port: process.env.PORT ?? ''
+  Port: process.env.PORT ?? '',
 };
