@@ -3,17 +3,17 @@ import { Post } from './Post';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id?: number;
+    @PrimaryGeneratedColumn()
+    id?: number;
 
-  @Column({
-    length: 100,
-  })
-  name?: string;
+    @Column({
+        length: 100,
+    })
+    name?: string;
 
-  @Column()
-  password?: string;
+    @Column()
+    password?: string;
 
-  @OneToMany(() => Post, (post) => post.user)
-  posts?: Post[];
+    @OneToMany(() => Post, (post) => post.user)
+    posts?: Post[];
 }

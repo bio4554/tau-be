@@ -1,4 +1,4 @@
 export type CreatePostRequest = {
-  postName: string;
-  postBody: string;
+    postName: string;
+    postBody: string;
 };

@@ -2,12 +2,12 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class RefreshAuth {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
 
-  @Column()
-  userId?: number;
+    @Column()
+    userId?: number;
 
-  @Column()
-  valid?: boolean;
+    @Column()
+    valid?: boolean;
 }

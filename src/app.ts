@@ -10,15 +10,15 @@ import routes from './routes';
 import cookieParser from 'cookie-parser';
 
 AppDataSource.initialize()
-  .then(() => {
-    console.log('init db success');
-  })
-  .catch((error) => console.log(error));
+    .then(() => {
+        console.log('init db success');
+    })
+    .catch((error) => console.log(error));
 
 function loggerMiddleware(req: Request, res: Response, next: NextFunction): void {
-  console.log(`${req.method} ${req.url}`);
-  console.log(req.cookies);
-  next();
+    console.log(`${req.method} ${req.url}`);
+    console.log(req.cookies);
+    next();
 }
 
 const app = express();
@@ -31,5 +31,5 @@ app.use(loggerMiddleware);
 app.use('/', routes);
 
 app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+    return console.log(`Express is listening at http://localhost:${port}`);
 });
