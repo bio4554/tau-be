@@ -8,7 +8,7 @@ import { auth } from '../middleware/auth';
 export const signJwt = async (user: User, jwtType: 'refresh' | 'access') => {
     if (jwtType == 'access') {
         const token = jwt.sign(
-            { id: user.id!.toString(), username: user.name },
+            { id: user.id!.toString(), username: user.username },
             config.JwtAccessKey,
             {
                 expiresIn: '30 minutes',

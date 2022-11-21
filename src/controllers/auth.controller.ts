@@ -25,9 +25,15 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 export const refresh = async (req: Request, res: Response, next: NextFunction) => {
     const cookie = req.cookies.refreshToken;
-    console.log(cookie);
     try {
-        const token = await tokenService.verifyJwt(cookie, 'refresh');
+        var token;
+        try {
+            token = await tokenService.verifyJwt(cookie, 'refresh');
+        } catch {
+            res.status(401).send();
+            return;
+        }
+
         const newToken = await authService.refreshToken(token.id);
         if (!newToken) {
             res.status(401).send();

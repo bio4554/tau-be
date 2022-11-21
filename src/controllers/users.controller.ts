@@ -1,10 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppDataSource } from '../db/data-source';
 import { User } from '../db/entity/User';
+import { CustomRequest } from '../middleware/auth';
 import * as userService from '../services/users.service';
 
 export const getById = async (req: Request, res: Response, next: NextFunction) => {
-    const id = parseInt(req.params.id);
+    const token = (req as CustomRequest).token;
+    if (!token) throw new Error();
+
+    const id = token.id;
 
     const userRepository = AppDataSource.getRepository(User);
     try {
@@ -25,8 +29,16 @@ export const postNew = async (req: Request, res: Response, next: NextFunction) =
     try {
         const user = new User();
         const body = req.body;
-        user.name = req.body.name;
+        user.username = req.body.username;
         user.password = req.body.password;
+        if (!user.username) {
+            res.status(400).send({ message: 'username empty' });
+            return;
+        }
+        if (await userService.usernameTaken(user.username)) {
+            res.status(400).send({ message: 'username taken' });
+            return;
+        }
         const response = await userService.createUser(user);
         res.status(201).send(response);
     } catch (err) {
