@@ -18,6 +18,14 @@
         {
             "name": "Users",
             "description": "API for users in the system"
+        },
+        {
+            "name": "Auth",
+            "description": "Authorization endpoints"
+        },
+        {
+            "name": "Posts",
+            "description": "Posts endpoints"
         }
     ],
     "paths": {
@@ -50,11 +58,161 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageResponse"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Internal error"
                     }
                 },
                 "tags": ["Users"]
+            },
+            "get": {
+                "summary": "Get user",
+                "description": "Get the current user",
+                "operationId": "getUser",
+                "responses": {
+                    "200": {
+                        "description": "Got user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
+            }
+        },
+        "/auth/login": {
+            "summary": "Auth",
+            "description": "Auth",
+            "post": {
+                "summary": "Login",
+                "description": "Login to an account",
+                "operationId": "loginAccount",
+                "responses": {
+                    "200": {
+                        "description": "Logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized login"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "tags": ["Auth"]
+            }
+        },
+        "/auth/refresh": {
+            "summary": "Auth",
+            "description": "Auth",
+            "post": {
+                "summary": "Refresh",
+                "description": "Request an access token using a refresh token",
+                "operationId": "refreshToken",
+                "responses": {
+                    "200": {
+                        "description": "Logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized login"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "tags": ["Auth"]
+            }
+        },
+        "/posts": {
+            "summary": "Posts",
+            "description": "posts",
+            "post": {
+                "summary": "Create post",
+                "description": "Create a new post for the currently logged in user",
+                "operationId": "createPost",
+                "requestBody": {
+                    "description": "Request for create post",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "tags": ["Posts"]
+            },
+            "get": {
+                "summary": "Get posts",
+                "description": "Get all posts for a user",
+                "operationId": "getPosts",
+                "responses": {
+                    "200": {
+                        "description": "List of posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Post"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "tags": ["Posts"]
             }
         }
     },
@@ -63,7 +221,7 @@
             "User": {
                 "type": "object",
                 "properties": {
-                    "name": {
+                    "username": {
                         "type": "string",
                         "example": "string"
                     },
@@ -77,13 +235,67 @@
             "CreateUser": {
                 "type": "object",
                 "properties": {
-                    "name": {
+                    "username": {
                         "type": "string",
                         "example": "string"
                     },
                     "password": {
                         "type": "string",
                         "example": "string"
+                    }
+                }
+            },
+            "MessageResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "string"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "accessToken": {
+                        "type": "string",
+                        "example": "string"
+                    }
+                }
+            },
+            "PostRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "body": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Post": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "body": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RefreshResponse": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
                     }
                 }
             }
