@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "tau-be",
+        "description": "Backend API for tau",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/v1/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Users",
+            "description": "API for users in the system"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "summary": "users path",
+            "description": "suer patasd",
+            "post": {
+                "summary": "create user",
+                "description": "create a new user",
+                "operationId": "postNewUser",
+                "requestBody": {
+                    "description": "Request for create user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                },
+                "tags": ["Users"]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                }
+            },
+            "CreateUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "string"
+                    }
+                }
+            }
+        }
+    }
+}

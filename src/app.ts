@@ -8,6 +8,7 @@ import { AppDataSource } from './db/data-source';
 import { User } from './db/entity/User';
 import routes from './routes';
 import cookieParser from 'cookie-parser';
+import swaggerUi from 'swagger-ui-express';
 
 AppDataSource.initialize()
     .then(() => {
@@ -27,6 +28,8 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(loggerMiddleware);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../swagger.json')));
 
 app.use('/', routes);
 
