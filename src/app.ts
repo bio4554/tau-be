@@ -9,6 +9,7 @@ import { User } from './db/entity/User';
 import routes from './routes';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
+import cors from 'cors';
 
 AppDataSource.initialize()
     .then(() => {
@@ -25,6 +26,7 @@ function loggerMiddleware(req: Request, res: Response, next: NextFunction): void
 const app = express();
 const port = parseInt(config.Port);
 app.use(helmet());
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(loggerMiddleware);
